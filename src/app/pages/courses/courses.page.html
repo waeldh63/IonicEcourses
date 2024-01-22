@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title size="large">Courses</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-searchbar
+  animated="true"
+  placeholder="Search"
+  [(ngModel)]="searchTerm"
+  show-clear-button="never"
+  (input)="searchCourses()"
+></ion-searchbar>
+<ion-segment [(ngModel)]="sortOption" (ionChange)="sortCourses()">
+  <ion-segment-button value="lowest"> Lowest Price </ion-segment-button>
+  <ion-segment-button value="highest"> Highest Price </ion-segment-button>
+</ion-segment>
+
+<ion-content>
+  <ng-container
+    *ngIf="arrayOfCourses && arrayOfCourses.length > 0; else noCourses"
+  >
+    <ion-card *ngFor="let course of arrayOfCourses">
+      <ion-card-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="11">
+              <ion-card-title> {{ course.courseName }}</ion-card-title>
+            </ion-col>
+            <ion-col
+              size="1"
+              *ngIf="checkWishListExistCourse(course.id)== false"
+            >
+              <ion-icon
+                name="star-outline"
+                size="large"
+                (click)="addCourseToWishList(course.id)"
+              ></ion-icon>
+            </ion-col>
+            <ion-col
+              size="1"
+              *ngIf="checkWishListExistCourse(course.id)== true"
+            >
+              <ion-icon
+                name="star"
+                size="large"
+                color="warning"
+                (click)="removeCourseFromWishList(course.id)"
+              ></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-card-subtitle>{{course.author}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-text> Price: {{ course.actualPrice }} </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="course.discountPercentage !== '0'">
+            <ion-col>
+              <ion-text>
+                Discounted: ₹{{ ((+course.actualPrice.replace('₹', '')) -(
+                (+course.actualPrice.replace('₹', '')) *
+                (+course.discountPercentage.replace('%', '')/ 100))) }}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-col *ngIf="course.tags && course.tags.length > 0">
+            <ion-text>
+              Tags:
+              <ion-chip color="primary" *ngFor="let tag of course.tags"
+                >{{tag}}</ion-chip
+              >
+            </ion-text>
+          </ion-col>
+        </ion-grid>
+        <ion-icon
+          name="cart-outline"
+          *ngIf="checkCartExistCourse(course.id)== false"
+          size="large"
+          (click)="addCourseToCart(course.id)"
+        ></ion-icon>
+        <ion-icon
+          name="cart"
+          *ngIf="checkCartExistCourse(course.id)== true"
+          size="large"
+        ></ion-icon>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-button expand="block">
+      <ion-icon name="cart" size="large"></ion-icon>
+      <ion-badge style="position: absolute; top: -10px; right: -15px;">{{shoppingCart}}</ion-badge>
+      <ion-badge >{{cartPrice}}</ion-badge>
+
+    </ion-button>
+  </ion-fab>
+  
+  
+  <ng-template #noCourses>
+    <div>No courses available.</div>
+  </ng-template>
+</ion-content>

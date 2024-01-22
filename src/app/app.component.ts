@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CoursesService } from './services/courses.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private CoursesService:CoursesService) {}
+  ngOnInit() {     
+    this.CoursesService.fetchCourses(); 
+    // fetch all courses to use the data in the tabs 
+    // we fetch once the data 
+  }
 }

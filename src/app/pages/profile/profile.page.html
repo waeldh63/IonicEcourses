@@ -1,0 +1,161 @@
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Profile</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-item>
+    <ion-avatar slot="start" style="align-self: flex-start; margin-top: 0">
+      <img
+        alt="Silhouette of a person's head"
+        src="https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg"
+      />
+    </ion-avatar>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-label
+            >{{userProfile.FirstName + ' '+userProfile.LastName}}</ion-label
+          >
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input
+            label="First name"
+            placeholder="First Name"
+            [value]="userProfile.FirstName"
+            (ionInput)="setFirstName($event)"
+          ></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input
+            label="Last name"
+            placeholder="Last Name"
+            [value]="userProfile.LastName"
+            (ionInput)="setLastName($event)"
+          ></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-textarea
+            label="About yourself"
+            placeholder="About yourself"
+            maxlength="100"
+            [counter]="true"
+            (ionInput)="setAboutYourself($event)"
+            [value]="userProfile.AboutYourself"
+          ></ion-textarea>
+        </ion-col>
+      </ion-row>
+
+      <ion-radio-group
+        (ionChange)="setIsStudent($event)"
+        [allowEmptySelection]="false"
+        [value]="userProfile.IsStudent  == 'student'? 'student' : 'professional'"
+        style="display: flex; background-color: beige"
+      >
+        <ion-radio
+          value="student"
+          style="display: inline-block; margin-right: 10px"
+          labelPlacement="stacked"
+          alignment="center"
+          >Student</ion-radio
+        >
+        <ion-radio
+          value="professional"
+          style="display: inline-block"
+          labelPlacement="stacked"
+          alignment="center"
+          >Professional</ion-radio
+        >
+      </ion-radio-group>
+
+      <ion-col *ngIf="userProfile.IsStudent == 'professional'">
+        <ion-col>
+          <ion-label>Experience</ion-label>
+        </ion-col>
+
+        <ion-radio-group
+          style="display: flex; background-color: beige"
+          (ionChange)="setExperience($event)"
+          [value]="userProfile.Experience"
+        >
+          <ion-radio
+            value="0-5"
+            style="display: inline-block; margin-right: 10px"
+            labelPlacement="stacked"
+            alignment="center"
+            >0-5</ion-radio
+          >
+          <ion-radio
+            value="5-10"
+            style="display: inline-block"
+            labelPlacement="stacked"
+            alignment="center"
+            >5-10</ion-radio
+          >
+          <ion-radio
+            value="10-above"
+            style="display: inline-block; margin-right: 10px"
+            labelPlacement="stacked"
+            alignment="center"
+            >10 & above</ion-radio
+          >
+        </ion-radio-group>
+        <ion-col>
+          <ion-label>Expertise</ion-label>
+        </ion-col>
+
+        <ion-radio-group
+          style="display: flex; background-color: beige"
+          [value]="userProfile.Expertise"
+          (ionChange)="setExpertise($event)"
+        >
+          <ion-radio
+            value="Frontend"
+            style="display: inline-block; margin-right: 10px"
+            labelPlacement="stacked"
+            alignment="center"
+            >Frontend</ion-radio
+          >
+          <ion-radio
+            value="BackEnd"
+            style="display: inline-block"
+            labelPlacement="stacked"
+            alignment="center"
+            >BackEnd</ion-radio
+          >
+        </ion-radio-group>
+      </ion-col>
+
+      <ion-row>
+        <ion-col>
+          <ion-textarea
+            label="Mention your role"
+            placeholder="Mention your role"
+            maxlength="200"
+            [counter]="true"
+            (ionInput)="setYourRole($event)"
+            [value]="userProfile.YourRole"
+          ></ion-textarea>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  <div style="display: flex; justify-content: center; align-items: center">
+    <ion-button (click)="FirstName?setProfileDetails():presentAlert()"
+      >Save</ion-button
+    >
+  </div>
+  <ion-alert
+    *ngIf="showAlert"
+    header="Mandatory Field"
+    message="Fisrt Name Field Cannot be null."
+    [buttons]="alertButtons"
+  ></ion-alert>
+</ion-content>
