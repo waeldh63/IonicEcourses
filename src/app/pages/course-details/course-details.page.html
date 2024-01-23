@@ -1,0 +1,63 @@
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-breadcrumbs>
+        <ion-breadcrumb href="courses">Courses</ion-breadcrumb>
+        <ion-breadcrumb href="">{{this.course.courseName}}</ion-breadcrumb>
+      </ion-breadcrumbs>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-img src="../../../assets//imgs/CourseDemo.jpg"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{this.course.courseName}}</ion-card-title>
+      <ion-card-subtitle>{{this.course.author}}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-text> Price: {{ course.actualPrice }} </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row
+          *ngIf="checkIfDiscountIsActive(course.discountPercentage,course.discountEndDate)"
+        >
+          <ion-col>
+            <ion-text> Discounted: ₹{{ course.discountedPrice }} </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-col *ngIf="course.tags && course.tags.length > 0">
+          <ion-text>
+            Tags:
+            <ion-chip color="primary" *ngFor="let tag of course.tags"
+              >{{tag}}</ion-chip
+            >
+          </ion-text>
+        </ion-col>
+        <ion-row *ngIf="checkDiscountRemainingTime(course.discountEndDate)<24">
+          <ion-col>
+            <ion-text>
+              hurry up the discount will end in
+              {{checkDiscountRemainingTime(course.discountEndDate)}} hour!!
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-button color="primary" (click)="addCourseToWishList(course.id)">
+        Add to wishlist
+      </ion-button>
+      <ion-button
+        size="default"
+        fill="outline"
+        color="primary"
+        (click)="addCourseToCart(course.id)"
+      >
+        Add To Cart
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-alert></ion-alert>
+</ion-content>
