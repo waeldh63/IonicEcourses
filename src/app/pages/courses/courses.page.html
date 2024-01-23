@@ -58,11 +58,11 @@
               <ion-text> Price: {{ course.actualPrice }} </ion-text>
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="checkIfDiscountIsActive(course.discountPercentage,course.discountEndDate)">
+          <ion-row
+            *ngIf="checkIfDiscountIsActive(course.discountPercentage,course.discountEndDate)"
+          >
             <ion-col>
-              <ion-text>
-                Discounted: ₹{{ course.discountedPrice }}
-              </ion-text>
+              <ion-text> Discounted: ₹{{ course.discountedPrice }} </ion-text>
             </ion-col>
           </ion-row>
           <ion-col *ngIf="course.tags && course.tags.length > 0">
@@ -95,7 +95,7 @@
           ></ion-icon>
 
           <ion-icon
-            (click)="navigateToOtherPage(course.id)"
+            (click)="navigateToCourseDetailsPage(course.id)"
             name="arrow-forward-circle-outline"
             size="large"
           ></ion-icon>
@@ -103,11 +103,16 @@
       </ion-card-content>
     </ion-card>
   </ng-container>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end" (click)="navigateToCartPage()">
+  <ion-fab
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end"
+    (click)="navigateToCartPage()"
+  >
     <ion-button expand="block">
       <ion-icon name="cart" size="large"></ion-icon>
       <ion-badge style="position: absolute; top: -10px; right: -15px"
-        >{{shoppingCart}}</ion-badge
+        >{{shoppingCartTotalItem}}</ion-badge
       >
       <ion-badge>{{cartPrice}}</ion-badge>
     </ion-button>
