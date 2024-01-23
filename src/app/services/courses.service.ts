@@ -2,43 +2,70 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CoursesService {
-courses:any = []
-  constructor(private http: HttpClient) { }
+  courses: any = [];
+  targetDateTime: Date | undefined;
+ 
+  constructor(private http: HttpClient) {}
 
   fetchCourses() {
-    // this function should be calling a function in function folder that call the api and return the data 
+    // this function should be calling a function in function folder that call the api and return the data
     // but now we have the data locally
-    this.http.get("../../assets/data/data.json").subscribe( //fetchung the data in the json file
+    this.http.get('../../assets/data/data.json').subscribe(
+      //fetchung the data in the json file
       (dataArray: any) => {
-        this.courses= dataArray; // save it into the object 
-        this.addIdsToCourses()
+        this.courses = dataArray; // save it into the object
+        this.addIdsToCourses();
       },
-      error => {
+      (error) => {
         console.error('Error fetching data:', error); //error handle
-        
       }
     );
   }
 
-getCourses(){
-  return this.courses
-}
+  getCourses() {
+    return this.courses;
+  }
 
-addIdsToCourses() {
-  this.courses.forEach((course: {
-    discountPercentage: any;
-    actualPrice: any;discountedPrice: number; id: any; 
-}, index: any) => {
-    course.id = index;
-    course.discountedPrice=(parseFloat(course.actualPrice.replace('₹', ''))-
-    ( parseFloat(course.actualPrice.replace('₹', '')) * parseFloat(course.discountPercentage.replace('%', ''))/ 100)
-    )
-  });
+  addIdsToCourses() {
+    const nowDate = new Date();
+    this.courses.forEach(
+      (
+        course: {
+          discountEndDate: Date;
+          discountPercentage: any;
+          actualPrice: any;
+          discountedPrice: number;
+          id: any;
+        },
+        index: any
+      ) => {
+        course.id = index;
+        this.targetDateTime = new Date(course.discountEndDate)
+        if((nowDate < this.targetDateTime) ==  true){
+        course.discountedPrice = parseFloat(
+          (
+            parseFloat(course.actualPrice.replace('₹', '')) -
+            (parseFloat(course.actualPrice.replace('₹', '')) *
+              parseFloat(course.discountPercentage.replace('%', ''))) /
+              100
+          ).toFixed(2)
+        );
+      } else{
+        course.discountedPrice =  parseFloat(course.actualPrice.replace('₹', ''))
+      }
 
 
-  console.log( this.courses)
-}
+
+
+
+
+
+      }
+    );
+
+    console.log(this.courses);
+  }
 }

@@ -58,12 +58,10 @@
               <ion-text> Price: {{ course.actualPrice }} </ion-text>
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="course.discountPercentage !== '0'">
+          <ion-row *ngIf="checkIfDiscountIsActive(course.discountPercentage,course.discountEndDate)">
             <ion-col>
               <ion-text>
-                Discounted: ₹{{ ((+course.actualPrice.replace('₹', '')) -(
-                (+course.actualPrice.replace('₹', '')) *
-                (+course.discountPercentage.replace('%', '')/ 100))) }}
+                Discounted: ₹{{ course.discountedPrice }}
               </ion-text>
             </ion-col>
           </ion-row>
@@ -76,30 +74,45 @@
             </ion-text>
           </ion-col>
         </ion-grid>
-        <ion-icon
-          name="cart-outline"
-          *ngIf="checkCartExistCourse(course.id)== false"
-          size="large"
-          (click)="addCourseToCart(course.id)"
-        ></ion-icon>
-        <ion-icon
-          name="cart"
-          *ngIf="checkCartExistCourse(course.id)== true"
-          size="large"
-        ></ion-icon>
+
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <ion-icon
+            name="cart-outline"
+            *ngIf="checkCartExistCourse(course.id)== false"
+            size="large"
+            (click)="addCourseToCart(course.id)"
+          ></ion-icon>
+          <ion-icon
+            name="cart"
+            *ngIf="checkCartExistCourse(course.id)== true"
+            size="large"
+          ></ion-icon>
+
+          <ion-icon
+            (click)="navigateToOtherPage(course.id)"
+            name="arrow-forward-circle-outline"
+            size="large"
+          ></ion-icon>
+        </div>
       </ion-card-content>
     </ion-card>
   </ng-container>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" (click)="navigateToCartPage()">
     <ion-button expand="block">
       <ion-icon name="cart" size="large"></ion-icon>
-      <ion-badge style="position: absolute; top: -10px; right: -15px;">{{shoppingCart}}</ion-badge>
-      <ion-badge >{{cartPrice}}</ion-badge>
-
+      <ion-badge style="position: absolute; top: -10px; right: -15px"
+        >{{shoppingCart}}</ion-badge
+      >
+      <ion-badge>{{cartPrice}}</ion-badge>
     </ion-button>
   </ion-fab>
-  
-  
+
   <ng-template #noCourses>
     <div>No courses available.</div>
   </ng-template>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CoursesService } from 'src/app/services/courses.service';
 import { ProfileService } from 'src/app/services/profile.service';
 
@@ -12,12 +12,13 @@ export class CoursesPage implements OnInit {
   public arrayOfCourses: any = [];
   public Profile: any = [];
   public shoppingCart: number = 0;
-  public cartPrice:number = 0;
+  public cartPrice: number = 0;
   searchTerm = '';
   sortOption: string = 'lowest';
+  nowDate = new Date();
   constructor(
     private CoursesService: CoursesService,
-    private ProfileService: ProfileService
+    private ProfileService: ProfileService,private router: Router
   ) {}
   ngOnInit() {
     this.arrayOfCourses = this.CoursesService.getCourses();
@@ -26,27 +27,31 @@ export class CoursesPage implements OnInit {
   }
   ionViewDidEnter() {
     this.shoppingCart = this.Profile.Cart.length;
-    this.cartPrice = 0
+    this.cartPrice = 0;
     this.Profile.Cart.forEach((course: any) => {
-      this.cartPrice=this.cartPrice+this.arrayOfCourses[course].discountedPrice
-  });
-
-
+      this.cartPrice =
+        this.cartPrice + this.arrayOfCourses[course].discountedPrice;
+    });
   }
-  addCourseToWishList(idOfCourse: any) {
 
-    this.ProfileService.addToWishList(idOfCourse);
-if(
 
-  this.ProfileService.checkCartExistCourse(idOfCourse)
-) {
-  this.cartPrice =  this.cartPrice-this.arrayOfCourses[idOfCourse].discountedPrice 
-  this.removeCourseFromCart(idOfCourse)
+checkIfDiscountIsActive(discountPercentage:string,discountEndDate:string){
+
+  const discountEnd = new Date(discountEndDate);
+
+return(discountPercentage !== '0' && this.nowDate<discountEnd)
+
 }
 
-  
-  
-  
+
+
+  addCourseToWishList(idOfCourse: any) {
+    this.ProfileService.addToWishList(idOfCourse);
+    if (this.ProfileService.checkCartExistCourse(idOfCourse)) {
+      this.cartPrice =
+        this.cartPrice - this.arrayOfCourses[idOfCourse].discountedPrice;
+      this.removeCourseFromCart(idOfCourse);
+    }
   }
   removeCourseFromWishList(idOfCourse: any) {
     this.ProfileService.removeCourseFromWishList(idOfCourse);
@@ -57,14 +62,13 @@ if(
 
   addCourseToCart(idOfCourse: any) {
     this.shoppingCart++;
-    this.cartPrice = this.arrayOfCourses[idOfCourse].discountedPrice +this.cartPrice 
+    this.cartPrice =
+      this.arrayOfCourses[idOfCourse].discountedPrice + this.cartPrice;
     this.ProfileService.addToCart(idOfCourse);
     this.ProfileService.removeCourseFromWishList(idOfCourse);
-
   }
   removeCourseFromCart(idOfCourse: any) {
     this.shoppingCart--;
-
     this.ProfileService.removeCourseFromCart(idOfCourse);
   }
   checkCartExistCourse(idOfCourse: any) {
@@ -95,5 +99,13 @@ if(
           parseFloat(a.actualPrice.replace('₹', ''))
       );
     }
+  }
+  navigateToOtherPage(courseId: number) {
+    // Replace 'other-page' with the route or path you want to navigate to
+    this.router.navigate(['/course-details', courseId]);
+  }
+  navigateToCartPage() {
+    // Replace 'other-page' with the route or path you want to navigate to
+    this.router.navigate(['/cardDetails']);
   }
 }
