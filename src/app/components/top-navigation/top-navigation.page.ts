@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-top-navigation',
@@ -7,6 +6,6 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./top-navigation.page.scss'],
 })
 export class TopNavigationPage implements OnInit {
-  constructor(private http: HttpClient) {}
+  constructor() {}
   ngOnInit() {}
 }

@@ -17,46 +17,44 @@ export class CardDetailsPage implements OnInit {
   public totalPrice: number = 0;
   isModalOpen = false;
   ngOnInit() {
-    this.userProfile = this.ProfileService.getProfile();
-    this.arrayOfCourses = this.CoursesService.getCourses();
-    this.checkTotalPrice();
+    this.userProfile = this.ProfileService.getProfile(); // get user profile
+    this.arrayOfCourses = this.CoursesService.getCourses(); // get all courses
+    this.checkTotalPrice(); // check the cart price
   }
 
   ionViewDidEnter() {
-    this.checkTotalPrice();
+    this.checkTotalPrice(); // every time we visit this page we will updated the price
   }
 
   addCourseToWishList(idOfCourse: any) {
-    this.ProfileService.addToWishList(idOfCourse);
-    this.removeCourseFromCart(idOfCourse);
-    this.checkTotalPrice();
-  }
-
-  checkWishListExistCourse(idOfCourse: any) {
-    return this.ProfileService.checkWishListExistCourse(idOfCourse);
+    this.ProfileService.addToWishList(idOfCourse); // here we add the course to wishlist
+    this.removeCourseFromCart(idOfCourse); // we remove the course from cart
+    this.checkTotalPrice(); // update the price
   }
 
   removeCourseFromCart(idOfCourse: any) {
-    this.ProfileService.removeCourseFromCart(idOfCourse);
-    this.checkTotalPrice();
-  }
-  checkCartExistCourse(idOfCourse: any) {
-    return this.ProfileService.checkCartExistCourse(idOfCourse);
+    // this function is called when checkout done
+    this.ProfileService.removeCourseFromCart(idOfCourse); // removing course from cart
+    this.checkTotalPrice(); // update price
   }
 
   checkTotalPrice() {
+    // calculate the price
     this.totalPrice = 0;
     this.userProfile.Cart.forEach((course: any) => {
+      // loop all the courses in cart array in the user profile and calculate there total price
       this.totalPrice =
         this.totalPrice + this.arrayOfCourses[course].discountedPrice;
     });
   }
 
   setOpen(isOpen: boolean) {
+    // open modal
     this.isModalOpen = isOpen;
   }
 
   completeCheckOut() {
+    //complete the check out by removing all courses from cart and update the price
     this.arrayOfCourses.forEach((course: { id: any }) => {
       this.removeCourseFromCart(course.id);
     });
