@@ -14,8 +14,9 @@ import { TopNavigationPage } from './top-navigation.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    TopNavigationPageRoutingModule,RouterModule.forChild([{ path: '', component: TopNavigationPage }])
+    TopNavigationPageRoutingModule,
+    RouterModule.forChild([{ path: '', component: TopNavigationPage }]),
   ],
-  declarations: [TopNavigationPage]
+  declarations: [TopNavigationPage],
 })
 export class TopNavigationPageModule {}

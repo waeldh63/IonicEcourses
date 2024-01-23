@@ -6,8 +6,8 @@ import { TopNavigationPage } from './top-navigation.page';
 const routes: Routes = [
   {
     path: '',
-    component: TopNavigationPage
-  }
+    component: TopNavigationPage,
+  },
 ];
 
 @NgModule({
