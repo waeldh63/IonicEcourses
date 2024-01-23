@@ -1,70 +1,74 @@
-
-
-<ion-header >
+<ion-header>
   <ion-toolbar>
     <ion-title size="large">Cart</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  
+  <ion-content>
+    <ng-container
+      *ngIf="userProfile && userProfile.Cart.length > 0; else noCoursesInWishList"
+    >
+      <ion-card *ngFor="let course of userProfile.Cart">
+        <ion-card-header>
+          <ion-card-title>
+            {{ arrayOfCourses[course].courseName }}</ion-card-title
+          >
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-text>
+                  Price: {{ arrayOfCourses[course].actualPrice }}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="arrayOfCourses[course].discountPercentage !== '0'">
+              <ion-col>
+                <ion-text>
+                  Discounted: ₹{{
+                  ((+arrayOfCourses[course].actualPrice.replace('₹', '')) -(
+                  (+arrayOfCourses[course].actualPrice.replace('₹', '')) *
+                  (+arrayOfCourses[course].discountPercentage.replace('%', '')/
+                  100))) }}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
 
-
-
-<ion-content>
-  <ng-container *ngIf="userProfile && userProfile.Cart.length > 0; else noCoursesInWishList">
-    <ion-card *ngFor="let course of userProfile.Cart">
-      <ion-card-header>
-              <ion-card-title >   {{ arrayOfCourses[course].courseName }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-text>
-                Price: {{ arrayOfCourses[course].actualPrice }}
-              </ion-text>
-            </ion-col>
-          </ion-row>
-          <ion-row  *ngIf="arrayOfCourses[course].discountPercentage !== '0'">
-            <ion-col>
-              <ion-text>
-                Discounted: ₹{{ ((+arrayOfCourses[course].actualPrice.replace('₹', '')) -( (+arrayOfCourses[course].actualPrice.replace('₹', '')) * (+arrayOfCourses[course].discountPercentage.replace('%', '')/ 100))) }}
-              </ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-
-        <ion-button  color="primary" (click)="addCourseToWishList( arrayOfCourses[course].id)">
-          Move to wishlist
-        </ion-button>
-        <ion-button  size="default"  fill="outline" color="danger"  (click)="removeCourseFromCart( arrayOfCourses[course].id)">
-          Delete the course
-        </ion-button>
-    </ion-card-content>
-    </ion-card>
-  </ng-container>
-</ion-content> 
- <ng-template #noCoursesInWishList>
-  <div>
-    No courses available.
-  </div>
-</ng-template>
+          <ion-button
+            color="primary"
+            (click)="addCourseToWishList( arrayOfCourses[course].id)"
+          >
+            Move to wishlist
+          </ion-button>
+          <ion-button
+            size="default"
+            fill="outline"
+            color="danger"
+            (click)="removeCourseFromCart( arrayOfCourses[course].id)"
+          >
+            Delete the course
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </ion-content>
+  <ng-template #noCoursesInWishList>
+    <div>No courses available.</div>
+  </ng-template>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-text>
-    Total Price: {{totalPrice}}
-    </ion-text>
-    <ion-button expand="block" (click)="setOpen(true)">
-      Checkout
-    </ion-button>
+    <ion-text> Total Price: {{totalPrice}} </ion-text>
+    <ion-button expand="block" (click)="setOpen(true)"> Checkout </ion-button>
   </ion-fab>
 
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
       <ion-content class="ion-padding">
-        Are U sure do u want to complete check out with total price : ₹{{totalPrice}}
-            <ion-button (click)="setOpen(false)">No</ion-button>
-            <ion-button (click)="completeCheckOut()">yes complete</ion-button>
+        Are U sure do u want to complete check out with total price :
+        ₹{{totalPrice}}
+        <ion-button (click)="setOpen(false)">No</ion-button>
+        <ion-button (click)="completeCheckOut()">yes complete</ion-button>
       </ion-content>
     </ng-template>
   </ion-modal>
