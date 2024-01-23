@@ -93,13 +93,15 @@ export class CourseDetailsPage implements OnInit {
     //second the end date is not passed
     const discountEnd = new Date(discountEndDate);
     //and we retun true or false
-    return discountPercentage !== '0' && this.nowDate < discountEnd;
+    
+    return (discountPercentage !== '0' && this.nowDate < discountEnd);
   }
   checkDiscountRemainingTime(discountEndDate: string) {
     // here we check how many hour left for the discount to be ended
     const discountEnd = new Date(discountEndDate);
     const timeDifference = (discountEnd as any) - (this.nowDate as any);
     this.discountHoursLeft = Math.floor(timeDifference / (1000 * 60 * 60));
+    console.log( this.discountHoursLeft)
     //and we return the number of hour left
     return this.discountHoursLeft;
   }

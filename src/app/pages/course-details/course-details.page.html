@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" >
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-breadcrumbs>
@@ -37,7 +37,7 @@
             >
           </ion-text>
         </ion-col>
-        <ion-row *ngIf="checkDiscountRemainingTime(course.discountEndDate)<24">
+        <ion-row *ngIf="checkDiscountRemainingTime(course.discountEndDate)<24 && checkDiscountRemainingTime(course.discountEndDate)>0">
           <ion-col>
             <ion-text>
               hurry up the discount will end in
