@@ -17,40 +17,40 @@ export class ProfileService {
   };
   constructor() {}
   getProfile() {
-    return this.profile;
+    return this.profile; // function to return user profile
   }
 
   addToWishList(idOfCourse: number) {
-    this.profile.Wishlist.push(idOfCourse);
+    this.profile.Wishlist.push(idOfCourse); // add course to profile wishlist
   }
-  removeCourseFromWishList(idOfCourse: number) {
+  removeCourseFromWishList(idOfCourse: number) { //remove course from profile wishlist
     this.profile.Wishlist = this.profile.Wishlist.filter(
       (item: number) => item !== idOfCourse
     );
   }
 
-  checkWishListExistCourse(idOfCourse: any) {
+  checkWishListExistCourse(idOfCourse: any) { // identify if course already exist in profile wishlist 
     return this.profile.Wishlist.includes(idOfCourse);
   }
 
-  addToCart(idOfCourse: number) {
+  addToCart(idOfCourse: number) {// add course to profile cart
     this.profile.Cart.push(idOfCourse);
   }
-  removeCourseFromCart(idOfCourse: number) {
+  removeCourseFromCart(idOfCourse: number) {//remove course from profile cart
     this.profile.Cart = this.profile.Cart.filter(
       (item: number) => item !== idOfCourse
     );
   }
 
-  checkCartExistCourse(idOfCourse: any) {
+  checkCartExistCourse(idOfCourse: any) { // identify if course already exist in profile cart 
     return this.profile.Cart.includes(idOfCourse);
   }
 
-  isStudentChanged(IsStudent: string) {
+  isStudentChanged(IsStudent: string) { //changee the isStudent field 
     this.profile.IsStudent = IsStudent;
   }
 
-  setProfileDetails(
+  setProfileDetails( //make a change on the profile details
     FirstName: string,
     LastName: string,
     AboutYourself: string,
