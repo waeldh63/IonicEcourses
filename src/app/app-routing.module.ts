@@ -4,7 +4,7 @@ import { TopNavigationPage } from './components/top-navigation/top-navigation.pa
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: 'courses',
     loadChildren: () =>
       import('./components/top-navigation/top-navigation.module').then(
         (m) => m.TopNavigationPageModule
@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'courses',
     pathMatch: 'full',
   },
   {
@@ -58,7 +58,7 @@ const routes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: 'home',
+            redirectTo: 'courses',
           },
           {
             path: 'courses',
