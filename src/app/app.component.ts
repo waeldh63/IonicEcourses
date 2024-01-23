@@ -7,10 +7,10 @@ import { CoursesService } from './services/courses.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private CoursesService:CoursesService) {}
-  ngOnInit() {     
-    this.CoursesService.fetchCourses(); 
-    // fetch all courses to use the data in the tabs 
-    // we fetch once the data 
+  constructor(private CoursesService: CoursesService) {}
+  ngOnInit() {
+    this.CoursesService.fetchCourses();
+    // fetch all courses to use the data in the tabs
+    // we fetch once the data
   }
 }
