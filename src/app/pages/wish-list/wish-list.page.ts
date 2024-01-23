@@ -8,39 +8,26 @@ import { ProfileService } from 'src/app/services/profile.service';
   styleUrls: ['./wish-list.page.scss'],
 })
 export class WishListPage implements OnInit {
-
-  constructor(private CoursesService: CoursesService, private ProfileService: ProfileService) { }
+  constructor(
+    private CoursesService: CoursesService,
+    private ProfileService: ProfileService
+  ) {}
   public arrayOfCourses: any = [];
-  public userProfile: any = {}
+  public userProfile: any = {};
 
   ngOnInit() {
-
-    this.userProfile = this.ProfileService.getProfile()   
-     this.arrayOfCourses = this.CoursesService.getCourses()
-
-
-  }
-  checkWishListExistCourse(idOfCourse: any) {
-    return this.ProfileService.checkWishListExistCourse(idOfCourse)
+    this.userProfile = this.ProfileService.getProfile(); // get user profile
+    this.arrayOfCourses = this.CoursesService.getCourses(); //get array of courses
   }
 
-  addCourseToWishList(idOfCourse: any) {
-    this.ProfileService.addToWishList(idOfCourse)
-  }
   removeCourseFromWishList(idOfCourse: any) {
-    this.ProfileService.removeCourseFromWishList(idOfCourse)
+    // here we remove the course from wihlist
+    this.ProfileService.removeCourseFromWishList(idOfCourse);
   }
-  
+
   addCourseToCart(idOfCourse: any) {
-    this.ProfileService.addToCart(idOfCourse)
-    this.ProfileService.removeCourseFromWishList(idOfCourse)
-
+    // here we add the course to the cart
+    this.ProfileService.addToCart(idOfCourse);
+    this.ProfileService.removeCourseFromWishList(idOfCourse);
   }
-  removeCourseFromCart(idOfCourse: any) {
-    this.ProfileService.removeCourseFromCart(idOfCourse)
-  }
-  checkCartExistCourse(idOfCourse: any) {
-    return this.ProfileService.checkCartExistCourse(idOfCourse)
-  }
-
 }
