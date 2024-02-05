@@ -13,7 +13,7 @@ export class CoursesService {
   fetchCourses() {
     // this function should be calling a function in function folder that call the api and return the data
     // but now we have the data locally
-    this.http.get('../../../docs/assets/data/data.json').subscribe(
+    this.http.get('../../assets/data/data.json').subscribe(
       //fetching the data in the json file
       (dataArray: any) => {
         this.courses = dataArray; // save it into the object
